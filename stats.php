@@ -13,7 +13,7 @@
 // based on prepared DOM, initialize echarts instance
 var myChart = echarts.init(document.getElementById('main'));
 
-$.get('api.php').done(function(data){
+$.get('https://luteciacorp.ovh/api.php?from_timestamp=1527090000&to_timestamp=1527200289').done(function(data){
 	data = JSON.parse(data);
 	console.log(data);
 	var x = data.map((value, index, array) => {
