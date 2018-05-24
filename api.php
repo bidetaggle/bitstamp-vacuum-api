@@ -20,7 +20,7 @@ if(isset($_GET['from_timestamp']))
 }
 else
 {
-    $request = "SELECT * FROM btc_usd LIMIT 100";
+    $request = "SELECT * FROM btc_usd ORDER BY id_local DESC LIMIT 100";
     $db = Database::$dbh->prepare($request);
     $db->execute();
 }
