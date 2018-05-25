@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>...</title>
+<style type="text/css">
+body {
+  margin: 0;
+}
+
+div, div:after, div:before {
+  position: absolute;
+  content: "";
+}
+
+.wrap {
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, #691d05, #040202);
+}
+
+.calcifer {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 200px;
+  width: 160px;
+  margin: auto;
+}
+
+.log {
+  width: 300px;
+  height: 60px;
+  background: #7e1c05;
+  background: radial-gradient(ellipse at top, #f9b413 0%, #8a1b06 40%, #1b0c08 90%);
+  top: 180px;
+  left: -70px;
+  overflow: hidden;
+}
+
+.lines {
+  width: 400px;
+  height: 30px;
+  border: 1px solid #1b0c08;
+  left: -50px;
+  top: 10px;
+}
+
+.lines:after {
+  width: 400px;
+  height: 20px;
+  border: 1px solid #1b0c08;
+  left: -50px;
+  top: 19px;
+}
+
+.lines:before {
+  width: 400px;
+  height: 20px;
+  border: 1px solid #1b0c08;
+  left: -50px;
+  top: 5px;
+}
+
+.crack-l {
+  width: 0;
+  height: 0;
+  border-left: 160px solid #1b0c08;
+  border-top: 5px solid transparent;
+  top: 20px;
+}
+
+.crack-l:after {
+  width: 0;
+  height: 0;
+  border-left: 160px solid #8a1b06;
+  border-bottom: 5px solid transparent;
+  top: 0px;
+  left: -160px;
+  opacity: 0.4;
+}
+
+.crack-r {
+  width: 0;
+  height: 0;
+  border-right: 160px solid #1b0c08;
+  border-top: 5px solid transparent;
+  top: 40px;
+  right: 0;
+}
+
+.crack-r:after {
+  width: 0;
+  height: 0;
+  border-right: 160px solid #8a1b06;
+  border-bottom: 5px solid transparent;
+  opacity: 0.4;
+}
+
+.rear {
+  width: 160px;
+  height: 170px;
+  top: 30px;
+  background: #f00;
+  border-radius: 50% 50% 40% 40%;
+}
+
+.flames-round {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #f20;
+  left: 20px;
+  top: -30px;
+  box-shadow: -25px 130px 0 0 #fc860a, -30px 80px 0 0 #fe4202, 85px 40px 0 0 #fe2001, 90px 120px 0 0 #fd7206, 50px -20px 0 0 #fe1001;
+}
+
+.flames-small {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #f20;
+  top: 10px;
+  box-shadow: 70px 20px 0 0 #ff2400, 50px 50px 0 0 #fe4202, 135px 40px 0 0 #fe2001, 100px -15px 0 0 #fe2001, -10px 80px 0 0 #fd6704, 55px -75px 0 0 #fe1001;
+}
+
+.flames-tiny {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #f20;
+  top: -10px;
+  left: 5px;
+  box-shadow: -5px 50px 0 0 #ff2400, 65px 40px 0 0 #fe4202, 120px 0 0 0 #fe2001, -10px 80px 0 0 #fd6704, 60px -75px 0 0 #fe1001, 80px -50px 0 0 #fe0000, 155px 90px 0 0 #ff2400, 40px 10px 0 0 #fe4202;
+}
+
+.front {
+  width: 160px;
+  height: 170px;
+  background: #f00;
+  background: radial-gradient(circle at bottom, #f7d91b 0%, #fe5f02 50%, transparent 80%);
+  border-radius: 50% 50% 40% 40%;
+  top: 30px;
+}
+
+.eyes {
+  width: 30px;
+  height: 30px;
+  background: #fee69f;
+  border-radius: 50%;
+  top: 130px;
+  left: 25px;
+  box-shadow: 80px 0 0 0 #fee68f;
+}
+
+.eyes:after {
+  width: 5px;
+  height: 5px;
+  background: #56210f;
+  border-radius: 50%;
+  top: 7px;
+  left: 15px;
+  box-shadow: 75px 0 0 0 #56210f;
+}
+
+.mouth {
+  width: 37px;
+  height: 9px;
+  background: #ff2400;
+  border-radius: 50% 50% 20% 20%;
+  top: 160px;
+  left: 62px;
+  opacity: 0.4;
+}
+
+.left-arm {
+  width: 20px;
+  height: 50px;
+  background: #fc860a;
+  border-radius: 50% 0% 50% 50%;
+  top: 155px;
+  left: 15px;
+  transform: rotate(-80deg);
+}
+
+.right-arm {
+  width: 20px;
+  height: 50px;
+  background: #fd7026;
+  border-radius: 0% 50% 50% 50%;
+  top: 160px;
+  left: 120px;
+  transform: rotate(60deg);
+}
+
+.ccc, .ccc a {
+  bottom: 0px;
+  right: 0px;
+  font-family: Tahoma;
+  font-size: 10pt;
+  padding: 5px;
+  border-radius: 5px 0 0 0;
+  color: white;
+}
+
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+  <div class="calcifer">
+    <div class="flame">
+      <div class="rear">
+        <div class="flames-round"></div>
+        <div class="flames-small"></div>
+        <div class="flames-tiny"></div>
+      </div>
+      <div class="front"></div>
+    </div>
+    <div class="face">
+      <div class="eyes"></div>
+      <div class="mouth"></div>
+    </div>
+    <div class="log">
+      <div class="lines"></div>
+      <div class="crack-l"></div>
+      <div class="crack-r"></div>
+    </div>
+    <div class="left-arm"></div>
+    <div class="right-arm"></div>
+  </div>
+</div>
+<div class="ccc">Made by <a href="http://chilliconcode.com" target="_blank">chilliconcode.com</a></div>
+
+</body>
+</html>
