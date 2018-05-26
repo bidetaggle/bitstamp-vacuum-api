@@ -2,107 +2,133 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>stats</title>
+	<title>bitstamp vacuum BTC/USD</title>
 	<script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
 	<script type="text/javascript" src="node_modules/echarts/dist/echarts.min.js"></script>
 </head>
 <body>
-	<div id="main" style="width: 1200px;height:400px;"></div>
+	<h1>Bitstamp vacuum BTC/USD</h1>
+	<div id="stored-transactions" style="width: 1200px;height:400px;"></div>
+	<div id="storage-rate" style="width: 1200px;height:400px;"></div>
 
 <script type="text/javascript">
 // based on prepared DOM, initialize echarts instance
-var myChart = echarts.init(document.getElementById('main'));
+var myChart = echarts.init(document.getElementById('stored-transactions'));
+var chart_storageRate = echarts.init(document.getElementById('storage-rate'));
 
-setInterval(function(){
-	$.get('https://luteciacorp.ovh/api.php').done(function(data){
-		data = JSON.parse(data);
+var options = function(x,y,title){
+	return {
+		tooltip: {
+			trigger: 'axis',
+			position: function (pt) {
+				return [pt[0], '10%'];
+			}
+		},
+		title: {
+			left: 'center',
+			text: title,
+		},
+		toolbox: {
+			feature: {
+				dataZoom: {
+					yAxisIndex: 'none'
+				},
+				restore: {},
+				saveAsImage: {}
+			}
+		},
+		xAxis: {
+			type: 'category',
+			boundaryGap: false,
+			data: x
+		},
+		yAxis: {
+			type: 'value',
+			//axisLine: {onZero: 0},
+			onZero: 0,
+			boundaryGap: ['0%', '0%'],
+			scale: true
+		},
+		series: [
+			{
+				type:'line',
+				smooth:true,
+				symbol: 'none',
+				sampling: 'average',
+				itemStyle: {
+					normal: {
+						color: 'rgb(255, 70, 131)'
+					}
+				},
+				areaStyle: {
+					normal: {
+						color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+							offset: 0,
+							color: 'rgb(255, 158, 68)'
+						}, {
+							offset: 1,
+							color: 'rgb(255, 70, 131)'
+						}])
+					}
+				},
+				data: y
+			}
+		]
+	}
+};
 
-		var x = data.reverse().map((value, index, array) => {
-			return value.id_local;
-		});
-		var y = data.reverse().map((value, index, array) => {
-			return value.price;
-		});
+var data;
+let nb_X = 100;
+var transactionsRateX = [];
+let now = Math.floor(Date.now() / 1000);
+for(let i=now-nb_X ; i<now ; i++){
+	transactionsRateX.push(i);
+}
+console.log(transactionsRateX);
+var transactionsRateY = Array(nb_X).fill(0);
 
-		myChart.setOption({
-		    tooltip: {
-		        trigger: 'axis',
-		        position: function (pt) {
-		            return [pt[0], '10%'];
-		        }
-		    },
-		    title: {
-		        left: 'center',
-		        text: 'bitstamp vacuum USD/BTC',
-		    },
-		    toolbox: {
-		        feature: {
-		            dataZoom: {
-		                yAxisIndex: 'none'
-		            },
-		            restore: {},
-		            saveAsImage: {}
-		        }
-		    },
-		    xAxis: {
-		        type: 'category',
-		        boundaryGap: false,
-		        data: x
-		    },
-		    yAxis: {
-		        type: 'value',
-		        //axisLine: {onZero: 0},
-		        onZero: 0,
-		        boundaryGap: ['0%', '0%'],
-		        scale: true
-		    },
-		    dataZoom: [{
-		        type: 'inside',
-		        start: 50,
-		        end: 100
-		    }, {
-		        start: 0,
-		        end: 10,
-		        handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
-		        handleSize: '80%',
-		        handleStyle: {
-		            color: '#fff',
-		            shadowBlur: 3,
-		            shadowColor: 'rgba(0, 0, 0, 0.6)',
-		            shadowOffsetX: 2,
-		            shadowOffsetY: 2
-		        }
-		    }],
-		    series: [
-		        {
-		            name:'模拟数据',
-		            type:'line',
-		            smooth:true,
-		            symbol: 'none',
-		            sampling: 'average',
-		            itemStyle: {
-		                normal: {
-		                    color: 'rgb(255, 70, 131)'
-		                }
-		            },
-		            areaStyle: {
-		                normal: {
-		                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-		                        offset: 0,
-		                        color: 'rgb(255, 158, 68)'
-		                    }, {
-		                        offset: 1,
-		                        color: 'rgb(255, 70, 131)'
-		                    }])
-		                }
-		            },
-		            data: y
-		        }
-		    ]
-		});
+$.get('https://luteciacorp.ovh/api.php').done(function(data){
+	data = JSON.parse(data);
+
+	var x = data.reverse().map((value, index, array) => {
+		return value.id_local;
 	});
-}, 500);
+	var y = data.map((value, index, array) => {
+		return value.price;
+	});
 
+	myChart.setOption(options(x,y, 'last stored transactions (price)'));
+
+	setInterval(function(){
+		console.log(parseInt(data[data.length-1].timestamp)+1);
+		let time = parseInt(data[data.length-1].timestamp)+1;
+		$.get('https://luteciacorp.ovh/api.php?from_timestamp='+time).done(function(d){
+			let nbTransactions = 0;
+			JSON.parse(d).forEach(function(i,n){
+				data.shift();
+				data.push(i);
+				console.log(data);
+				nbTransactions++;
+			});
+
+			var x = data.map((value, index, array) => {
+				return value.id_local;
+			});
+			var y = data.map((value, index, array) => {
+				return value.price;
+			});
+
+			myChart.setOption(options(x,y, 'last stored transactions (price)'));
+
+			transactionsRateY.shift();
+			transactionsRateY.push(nbTransactions);
+			transactionsRateX.shift();
+			transactionsRateX.push(Math.floor(Date.now() / 1000));
+
+			chart_storageRate.setOption(options(transactionsRateX,transactionsRateY, 'storage rate (transactions/sec)'));
+		});
+	}, 1000);
+});
 </script>
 
 </body>
