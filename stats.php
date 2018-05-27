@@ -78,13 +78,13 @@ var options = function(x,y,title){
 };
 
 var data;
-let nb_X = 100;
+const nb_X = 100;
 var transactionsRateX = [];
 let now = Math.floor(Date.now() / 1000);
 for(let i=now-nb_X ; i<now ; i++){
 	transactionsRateX.push(i);
 }
-console.log(transactionsRateX);
+
 var transactionsRateY = Array(nb_X).fill(0);
 
 $.get('https://luteciacorp.ovh/api.php').done(function(data){
