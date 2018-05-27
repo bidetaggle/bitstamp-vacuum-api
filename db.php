@@ -1,4 +1,4 @@
-<?php 
+<?php
 class Database
 {
     /**
@@ -10,9 +10,9 @@ class Database
     {
         try{
             self::$dbh = new PDO(
-                "mysql:host=localhost;dbname=bitstamp",
-                "root",
-                "root"
+                "mysql:host=localhost;dbname=".DB_NAME,
+                DB_USER,
+                DB_PASSWORD
             );
 
             self::$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

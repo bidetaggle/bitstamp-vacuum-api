@@ -1,9 +1,6 @@
 <?php
-
+include_once('config.php');
 include_once('db.php');
-
-define("DB_TABLE_NAME", "transactions");
-define("PAIRS_LIST", array("btc_usd", "eth_usd", "btc_eur"));
 
 if(isset($_GET['pair']) && in_array($_GET['pair'], PAIRS_LIST)){
     if(isset($_GET['from_timestamp']))

@@ -1,13 +1,28 @@
+<?php include_once('config.php'); ?>
+
+<?php
+if(!isset($_GET['pair']) || !in_array($_GET['pair'], PAIRS_LIST))
+	$_GET['pair'] = "btc_usd";
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>bitstamp vacuum BTC/USD</title>
+	<title>bitstamp vacuum</title>
 	<script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
 	<script type="text/javascript" src="node_modules/echarts/dist/echarts.min.js"></script>
 </head>
 <body>
-	<h1>Bitstamp vacuum BTC/USD</h1>
+	<h1><?php echo $_GET['pair']; ?></h1>
+
+	<?php foreach (PAIRS_LIST as $pair): ?>
+		<a href="?pair=<?php echo $pair ?>">
+			<?php echo $pair; ?>
+		</a>
+	<?php endforeach; ?>
+
+	<input type="hidden" name="pair" value="<?php echo $_GET['pair']; ?>">
 	<div id="stored-transactions" style="width: 1200px;height:400px;"></div>
 	<div id="storage-rate" style="width: 1200px;height:400px;"></div>
 
@@ -15,6 +30,7 @@
 // based on prepared DOM, initialize echarts instance
 var myChart = echarts.init(document.getElementById('stored-transactions'));
 var chart_storageRate = echarts.init(document.getElementById('storage-rate'));
+var selectedPair = document.getElementsByName("pair")[0].value;
 
 var options = function(x,y,title){
 	return {
@@ -87,7 +103,7 @@ for(let i=now-nb_X ; i<now ; i++){
 
 var transactionsRateY = Array(nb_X).fill(0);
 
-$.get('https://luteciacorp.ovh/api.php').done(function(data){
+$.get('https://luteciacorp.ovh/api.php?pair='+selectedPair).done(function(data){
 	data = JSON.parse(data);
 
 	var x = data.reverse().map((value, index, array) => {
@@ -102,7 +118,7 @@ $.get('https://luteciacorp.ovh/api.php').done(function(data){
 	setInterval(function(){
 		console.log(parseInt(data[data.length-1].timestamp)+1);
 		let time = parseInt(data[data.length-1].timestamp)+1;
-		$.get('https://luteciacorp.ovh/api.php?from_timestamp='+time).done(function(d){
+		$.get('https://luteciacorp.ovh/api.php?pair='+selectedPair+'&from_timestamp='+time).done(function(d){
 			let nbTransactions = 0;
 			JSON.parse(d).forEach(function(i,n){
 				data.shift();
