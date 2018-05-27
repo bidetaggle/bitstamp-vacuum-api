@@ -2,7 +2,7 @@
 
 <?php
 if(!isset($_GET['pair']) || !in_array($_GET['pair'], PAIRS_LIST))
-	$_GET['pair'] = "btc_usd";
+	$_GET['pair'] = "ALL";
 ?>
 
 <!DOCTYPE html>
