@@ -1,4 +1,4 @@
-<?php include_once('config.php'); ?>
+<?php include_once('../config.php'); ?>
 
 <?php
 if(!isset($_GET['pair']) || !in_array($_GET['pair'], PAIRS_LIST))
