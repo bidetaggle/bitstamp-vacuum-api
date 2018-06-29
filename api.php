@@ -31,4 +31,16 @@ else
     $db->execute($requestValues);
 }
 
-echo json_encode($db->fetchAll());
+//remove numeral ids
+$return = [];
+$i = 0;
+foreach ($db->fetchAll() as $transaction) {
+    foreach ($transaction as $key => $value) {
+        if(!is_int($key))
+        $return[$i][$key] = $value;
+    }
+    $i++;
+}
+
+echo json_encode($return);
+// echo json_encode($db->fetchAll());
